@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "Fraud Signal Decoder",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET Transaction",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/transaction",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["transaction"]
+        }
+      }
+    },
+    {
+      "name": "GET Transaction With Risk",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/transaction_with_risk",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["transaction_with_risk"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "pm.test('computedRiskLevel is present', function () {",
+              "    pm.expect(body).to.have.property('computedRiskLevel');",
+              "});",
+              "pm.test('computedRiskLevel is one of low, medium, high', function () {",
+              "    pm.expect(['low', 'medium', 'high']).to.include(body.computedRiskLevel);",
+              "});",
+              "console.log('Risk level:', body.computedRiskLevel);"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
